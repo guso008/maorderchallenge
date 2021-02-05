@@ -3,6 +3,9 @@ package com.ma.pedidos.controller;
 import com.ma.pedidos.dto.OrderDto;
 import com.ma.pedidos.exception.ServiceException;
 import com.ma.pedidos.service.OrderService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,11 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    @ApiOperation("Crear pedido")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = OrderDto.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found") })
     @PostMapping("/save")
     @ResponseStatus(value = HttpStatus.CREATED)
     public OrderDto saveOrder(@Valid @RequestBody OrderDto orderDto) throws ServiceException {
@@ -33,6 +41,10 @@ public class OrderController {
         return orderService.saveOrder(orderDto);
     }
 
+    @ApiOperation("Obtener pedidos por día")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = OrderDto.class),
+            @ApiResponse(code = 400, message = "Bad Request") })
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     public List<OrderDto> getOrderByDate(

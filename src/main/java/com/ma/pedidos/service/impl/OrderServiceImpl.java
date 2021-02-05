@@ -19,8 +19,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -72,9 +70,15 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.convertToDtoList(orderList);
     }
 
+    /**
+     * Complete attributes in Order.
+     *
+     * @param order {@link Order}
+     * @param orderDetails {@link OrderDetail}
+     */
     private void completeAttributesOrder(Order order, List<OrderDetail> orderDetails) {
         /*
-         * if orderDetails is empty then end method
+         if orderDetails is empty then end method
          */
         if (CollectionUtils.isEmpty(orderDetails))
             return;
@@ -93,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         /*
-         * evaluate if it has a discount
+         evaluate if it has a discount
          */
         if (percentageApplyDiscount != null && amountApplyDiscount != null && amountProduct > amountApplyDiscount) {
 
@@ -108,11 +112,12 @@ public class OrderServiceImpl implements OrderService {
         order.setApplyDiscount(isDiscount);
     }
 
-    @Override
-    public Optional<Order> searchOrderById(UUID id) {
-        return orderRepository.findById(id);
-    }
-
+    /**
+     * Save order details.
+     *
+     * @param order {@link Order}
+     * @param orderDetails {@link List<OrderDetail>}
+     */
     private void saveOrderDetails(Order order, List<OrderDetail> orderDetails) {
 
         orderDetails.forEach(orderDetail -> orderDetail.setOrder(order));

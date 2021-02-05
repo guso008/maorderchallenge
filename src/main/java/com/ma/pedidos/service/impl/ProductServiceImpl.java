@@ -78,6 +78,12 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+    /**
+     * Verify exist Product.
+     *
+     * @param id {@link UUID}
+     * @return {@link boolean}
+     */
     private boolean existProduct(UUID id) {
         return productRepository.existsProductByIdAndDeleteDateIsNull(id);
     }

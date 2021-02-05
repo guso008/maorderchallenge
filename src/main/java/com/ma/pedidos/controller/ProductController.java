@@ -3,6 +3,9 @@ package com.ma.pedidos.controller;
 import com.ma.pedidos.dto.ProductDto;
 import com.ma.pedidos.exception.ServiceException;
 import com.ma.pedidos.service.ProductService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,11 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @ApiOperation("Obtener producto por id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductDto.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found") })
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public ProductDto searchProductById(@PathVariable UUID id) throws ServiceException {
@@ -28,6 +36,10 @@ public class ProductController {
         return productService.searchProductById(id);
     }
 
+    @ApiOperation("Crear un producto")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = ProductDto.class),
+            @ApiResponse(code = 400, message = "Bad Request") })
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDto saveProduct(@Valid @RequestBody ProductDto productDto){
@@ -36,6 +48,11 @@ public class ProductController {
         return productService.saveProduct(productDto);
     }
 
+    @ApiOperation("Actualizar producto")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductDto.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found") })
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public ProductDto updateProduct(@PathVariable("id") UUID id, @Valid @RequestBody ProductDto productDto) throws ServiceException {
@@ -45,6 +62,11 @@ public class ProductController {
         return productService.updateProduct(id, productDto);
     }
 
+    @ApiOperation("Eliminar producto")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ProductDto.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found") })
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") UUID id) throws ServiceException {

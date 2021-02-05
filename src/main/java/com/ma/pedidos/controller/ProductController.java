@@ -3,6 +3,7 @@ package com.ma.pedidos.controller;
 import com.ma.pedidos.dto.ProductDto;
 import com.ma.pedidos.exception.ServiceException;
 import com.ma.pedidos.service.ProductService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.UUID;
 
+@Api(tags = { "Product" })
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {

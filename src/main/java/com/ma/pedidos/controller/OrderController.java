@@ -3,6 +3,7 @@ package com.ma.pedidos.controller;
 import com.ma.pedidos.dto.OrderDto;
 import com.ma.pedidos.exception.ServiceException;
 import com.ma.pedidos.service.OrderService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Api(tags = { "Order" })
 @RestController
 @RequestMapping("/api/v1/orders")
 public class OrderController {

@@ -17,7 +17,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDto {
 
-    @NotBlank
+    @NotBlank(message = "La dirección no debe ser vacío o null")
     @JsonProperty("direccion")
     private String address;
 

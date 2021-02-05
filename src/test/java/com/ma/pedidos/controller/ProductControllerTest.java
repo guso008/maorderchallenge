@@ -1,8 +1,5 @@
 package com.ma.pedidos.controller;
 
-import com.ma.pedidos.dto.ProductDto;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -17,20 +14,31 @@ import static org.hamcrest.Matchers.*;
 
 class ProductControllerTest {
 
+    private static final String goodRequest =
+            """
+            {
+                "nombre": "Jamón y morrones",
+                "descripcionCorta" : "Pizza de jamón y morrones",
+                "descripcionLarga" : "Mozzarella, jamón, morrones y aceitunas verdes",
+                "precioUnitario" : 500.00\s
+            }
+            """;
+
+    private static final String badRequest =
+            """
+            {
+                "descripcionCorta" : "Pizza de jamón y morrones",
+                "descripcionLarga" : "Mozzarella, jamón, morrones y aceitunas verdes",
+                "precioUnitario" : 500.00\s
+            }
+            """;
+
+
     @DisplayName("Save product success")
     @Test
-    public void savaProduct_success(){
+    public void saveProduct_success(){
 
-        String request = """
-                {
-                    "nombre": "Jamón y morrones",
-                    "descripcionCorta" : "Pizza de jamón y morrones",
-                    "descripcionLarga" : "Mozzarella, jamón, morrones y aceitunas verdes",
-                    "precioUnitario" : 500.00\s
-               }
-                """;
-
-        with().body(request)
+        with().body(goodRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .request("POST", "/api/v1/products/save")
@@ -40,18 +48,9 @@ class ProductControllerTest {
 
     @DisplayName("Save product success")
     @Test
-    public void savaProduct_error(){
+    public void saveProduct_error(){
 
-
-        String request = """
-                {
-                    "descripcionCorta" : "Pizza de jamón y morrones",
-                    "descripcionLarga" : "Mozzarella, jamón, morrones y aceitunas verdes",
-                    "precioUnitario" : 500.00\s
-               }
-                """;
-
-        with().body(request)
+        with().body(badRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .request("POST", "/api/v1/products/save")
@@ -59,12 +58,61 @@ class ProductControllerTest {
                 .statusCode(400);
     }
 
+    @DisplayName("Update product success")
+    @Test
+    public void updateProduct_success(){
+
+        with().body(goodRequest)
+                .contentType(ContentType.JSON)
+                .when()
+                .request("PUT", "/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d7e")
+                .then()
+                .statusCode(200);
+    }
+
+    @DisplayName("Update product, fail not found")
+    @Test
+    public void updateProduct_fail_notfound(){
+
+        with().body(goodRequest)
+                .contentType(ContentType.JSON)
+                .when()
+                .request("PUT", "/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d33")
+                .then()
+                .statusCode(404);
+    }
+
+    @DisplayName("Delete product success")
+    @Test
+    public void deleteProduct_success(){
+
+        with().body(goodRequest)
+                .contentType(ContentType.JSON)
+                .when()
+                .request("DELETE", "/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d70")
+                .then()
+                .statusCode(204);
+    }
+
+    @DisplayName("Delete product, fail not found")
+    @Test
+    public void deleteProduct_fail_notfound(){
+
+        with().body(goodRequest)
+                .contentType(ContentType.JSON)
+                .when()
+                .request("DELETE", "/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d7f")
+                .then()
+                .statusCode(404);
+    }
+
     @DisplayName("Search Product by Id")
     @Test
     public void searchProduct_byId_success() {
         get("/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d7e").
                 then()
-                .statusCode(200).assertThat()
+                .statusCode(200)
+                .assertThat()
                 .body("id", equalTo("44394ddf-ab6e-4e2f-88f8-7f7554216d7e"));
     }
 

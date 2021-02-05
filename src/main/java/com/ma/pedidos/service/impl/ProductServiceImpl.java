@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto updateProduct(UUID id, ProductDto productDto) throws ServiceException {
 
-        if(existProduct(id)){
+        if(!existProduct(id)){
             logger.warn("Product not found, id: {}", id);
             throw new ServiceException(String.format(ProductConstant.PRODUCT_NOT_FOUND, id), HttpStatus.NOT_FOUND);
         }

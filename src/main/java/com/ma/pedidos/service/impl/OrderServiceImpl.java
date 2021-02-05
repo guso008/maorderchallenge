@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,7 +67,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getOrderByDate(LocalDate date) {
-        List<Order> orderList = orderRepository.findByDateIs(date);
+        //default time zone
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        Date dateInitGet = Date.from(date.atStartOfDay(defaultZoneId).toInstant());
+        Date dateEndGet = Date.from(date.plusDays(1).atStartOfDay(defaultZoneId).toInstant());
+
+        List<Order> orderList = orderRepository.findByDateIs(dateInitGet, dateEndGet);
 
         return orderMapper.convertToDtoList(orderList);
     }

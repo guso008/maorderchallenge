@@ -1,15 +1,10 @@
 package com.ma.pedidos.controller;
 
 import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 class ProductControllerTest {
@@ -122,8 +117,4 @@ class ProductControllerTest {
         get("/api/v1/products/44394ddf-ab6e-4e2f-88f8-7f7554216d75").then().statusCode(404).assertThat()
                 .body("Errores[0].error", equalTo("Producto no encontrado, con id: 44394ddf-ab6e-4e2f-88f8-7f7554216d75"));
     }
-
-
-
-
 }

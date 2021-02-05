@@ -27,10 +27,10 @@ public class OrderServiceImpl implements OrderService {
 
     Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    @Value("${pedidos.descuento.cantidad-aplicar}")
+    @Value("${order.amount.apply.discount}")
     private Integer amountApplyDiscount;
 
-    @Value("${pedidos.descuento.porcentaje-aplicar}")
+    @Value("${order.percentage-apply.discount}")
     private Double percentageApplyDiscount;
 
     @Autowired

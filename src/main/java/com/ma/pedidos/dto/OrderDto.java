@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ma.pedidos.model.enums.OrderStatus;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -38,12 +39,15 @@ public class OrderDto {
     List<OrderDetailDto> orderDetailDtos;
 
     @JsonProperty("total")
+    @ApiModelProperty(hidden = true)
     private Double totalAmount;
 
     @JsonProperty("descuento")
+    @ApiModelProperty(hidden = true)
     private boolean applyDiscount;
 
     @JsonProperty("estado")
+    @ApiModelProperty(hidden = true)
     private OrderStatus status;
 
     public String getAddress() {
